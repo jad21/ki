@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Ki Web Framework - Landing</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            /* Fondo degradado horizontal estilo playa DBZ */
+            min-height: 100vh;
+            background: linear-gradient(180deg,
+                    #84d3f7 0%,
+                    /* Cielo azul claro */
+                    #47b7e3 30%,
+                    /* Cielo más profundo */
+                    #a3f2e0 55%,
+                    /* Mar turquesa claro */
+                    #ffe176 75%,
+                    /* Arena dorada */
+                    #fca311 100%
+                    /* Naranja (toque sunset DBZ) */
+                );
+            /* Opcional: patrón suave para más textura playera */
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+    
+        .kai-box {
+            /* Se mantiene igual, con borde y fondo suave */
+            box-shadow: 0 4px 32px 0 #4443, 0 0 0 4px #2d2e2d22;
+            border-radius: 1.5rem;
+            border: 4px solid #1e293b;
+            background: #fff8e1dd;
+        }</style>
+
+        <!-- tema monokai -->
+        <style>
+            /* Monokai Theme for code blocks */
+            pre, pre code, code {
+                background: #272822 !important;
+                color: #f8f8f2 !important;
+                font-family: 'Fira Mono', 'Consolas', 'Monaco', monospace;
+                font-size: 1em;
+                border-radius: 0.7rem;
+                padding: 0.45rem 0.85rem;
+                line-height: 1.55;
+                box-shadow: 0 1px 6px #0002;
+            }
+            pre {
+                border-left: 5px solid #f92672;
+                margin: 1rem 0 1.5rem 0;
+                overflow-x: auto;
+            }
+            pre code {
+                background: transparent !important;
+                padding: 0;
+            }
+            code {
+                /* Inline code */
+                padding: 0.15em 0.3em;
+                border-radius: 0.4em;
+                font-size: 0.97em;
+            }
+            </style>
+            <!-- En tu <head> -->
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" />
+            <!-- O prueba prism-okaidia.min.css para algo muy similar a Monokai -->
+            
+            <!-- Al final del <body> -->
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-go.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
+
+            
+</head>
+
+<body class="min-h-screen flex flex-col items-center justify-center px-4">
+    <div class="flex flex-col items-center justify-center mb-6">
+        <!-- Splash Dragon Ball ochentero SVG -->
+        <svg width="88" height="88" viewBox="0 0 88 88" fill="none" class="animate-bounce">
+            <circle cx="44" cy="44" r="42" fill="#fca311" stroke="#e08d1a" stroke-width="4" />
+            <circle cx="44" cy="44" r="30" fill="#fffbe6" opacity="0.14" />
+            <!-- Estrellas -->
+            <g>
+                <polygon points="44,30 47,39 56,39 49,44 52,53 44,48 36,53 39,44 32,39 41,39" fill="#e3221a"
+                    stroke="#d91614" stroke-width="1" />
+            </g>
+        </svg>
+
+        <!-- <a href="/" class="inline-flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-full font-bold shadow-lg transition mb-4 border-4 border-green-900">
+            <svg width="28" height="28" viewBox="0 0 28 28" class="mr-1" fill="none">
+                <circle cx="14" cy="14" r="12" fill="#e0ffba" stroke="#357418" stroke-width="3"/>
+                <circle cx="14" cy="14" r="6" fill="#9be942" stroke="#4c880b" stroke-width="1.5"/>
+                <circle cx="18" cy="10" r="2" fill="#fca311" />
+                <rect x="5" y="13" width="6" height="2" rx="1" fill="#4c880b" />
+            </svg>
+            <span>Ir al Home (Radar)</span>
+        </a>
+         -->
+    
+        <!-- Badges -->
+        <div class="flex flex-wrap gap-2 mt-4">
+            <span
+                class="inline-block bg-orange-500 text-white rounded-full px-4 py-1 font-bold shadow-md animate-pulse border-2 border-orange-800">Go
+                puro</span>
+            <span
+                class="inline-block bg-blue-600 text-white rounded-full px-4 py-1 font-bold shadow-md border-2 border-blue-900">Sin
+                dependencias</span>
+            <span
+                class="inline-block bg-yellow-400 text-gray-900 rounded-full px-4 py-1 font-bold shadow-md border-2 border-yellow-700">Dragon
+                Style</span>
+            <span
+                class="inline-block bg-green-500 text-white rounded-full px-4 py-1 font-bold shadow-md border-2 border-green-900">Super
+                rápido ⚡️</span>
+        </div>
+    </div>
+    
+    <div class="kai-box w-full max-w-5xl mx-auto mt-10 p-8">
+        <div class="flex items-center justify-between mb-6">
+            <h1 class="kai-header text-4xl font-extrabold text-orange-700 tracking-wider">
+                <span class="text-5xl align-middle" style="font-family:monospace;">気</span> Ki Web Framework
+            </h1>
+            <img src="./supergopher.jpeg" alt="SuperGopher"
+                class="w-28 h-28 rounded-xl border-4 border-orange-300 shadow-lg ml-2 hidden md:block">
+        </div>
+
+        <p class="text-lg mb-6">
+            <strong>Ki</strong> (<span class="text-2xl align-middle">気</span>, <span
+                class="italic text-gray-700">"Energía"</span>) es un framework web moderno, rápido y minimalista para
+            Go, inspirado en la simplicidad de la librería estándar pero con características avanzadas como inyección de
+            dependencias, middlewares y enrutamiento con parámetros, sin dependencias externas para el router.
+        </p>
+
+        <h2 class="text-2xl text-orange-600 font-bold mb-2">Características</h2>
+        <ul class="list-disc pl-6 mb-6 space-y-1 text-gray-800">
+            <li><span class="font-semibold">100% Go puro:</span> Router basado en <code>net/http</code>, sin
+                dependencias externas.</li>
+            <li><span class="font-semibold">Enrutamiento flexible:</span> Soporte para rutas con parámetros, grupos,
+                prefijos y expresiones regulares.</li>
+            <li><span class="font-semibold">Middlewares sencillos y potentes:</span> Globales, por grupo o por ruta.
+            </li>
+            <li><span class="font-semibold">Inyección de dependencias:</span> Handlers con argumentos inyectados
+                automáticamente.</li>
+            <li><span class="font-semibold">Gestión avanzada de sesiones y cookies.</span></li>
+            <li><span class="font-semibold">Servir archivos estáticos con facilidad.</span></li>
+            <li><span class="font-semibold">Respuestas JSON, XML, CSV, texto, templates o personalizadas.</span></li>
+            <li><span class="font-semibold">Manejo de logs y cabeceras de proxy nativo.</span></li>
+        </ul>
+
+        <h2 class="text-xl font-bold text-orange-600 mb-2">Instalación</h2>
+        <pre class="bg-orange-100 rounded p-3 mb-6"><code class="bash">go get -u git.jdev.run/pkg/ki</code></pre>
+
+        <h2 class="text-xl font-bold text-orange-600 mb-2">Primer Ejemplo</h2>
+        <pre class="bg-gray-900 text-green-200 rounded p-3 mb-6 overflow-auto text-sm"><code class="language-go">
+package main
+import (
+    "net/http"
+    "git.jdev.run/pkg/ki"
+)
+
+func main() {
+    app := ki.New()
+
+    app.Get("/kame", func(ctx *ki.Context) {
+        ctx.Text(http.StatusOK, "hame-ha")
+    })
+    app.Get("/kaio", func(ctx *ki.Context) {
+        ctx.JSON(http.StatusOK, ki.M{"body": "ken"})
+    })
+    app.ListenAndServe()
+}
+</code></pre>
+
+        <div class="mt-8 flex flex-wrap gap-2 justify-center">
+            <a href="https://git.jdev.run/pkg/ki"
+                class="bg-orange-600 hover:bg-orange-700 text-white font-bold py-2 px-5 rounded transition shadow">Repositorio</a>
+            <a href="#características"
+                class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-5 rounded transition shadow">Documentación</a>
+            <a href="#instalación"
+                class="bg-yellow-600 hover:bg-yellow-700 text-white font-bold py-2 px-5 rounded transition shadow">Instalación</a>
+        </div>
+
+
+        <h2 class="text-xl font-bold text-orange-600 mb-2 mt-8">Ejemplo de Definición de Rutas</h2>
+        <table class="w-full bg-white/90 rounded-lg mb-6 border border-orange-200 text-sm">
+            <thead>
+                <tr class="bg-orange-100 border-b border-orange-200">
+                    <th class="py-2 px-3 text-left font-bold text-gray-700">Método</th>
+                    <th class="py-2 px-3 text-left font-bold text-gray-700">Ruta</th>
+                    <th class="py-2 px-3 text-left font-bold text-gray-700">Descripción</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="py-1 px-3 font-mono">GET</td>
+                    <td class="py-1 px-3">/kame</td>
+                    <td class="py-1 px-3">Devuelve texto plano "hame-ha"</td>
+                </tr>
+                <tr class="bg-orange-50">
+                    <td class="py-1 px-3 font-mono">GET</td>
+                    <td class="py-1 px-3">/kaio</td>
+                    <td class="py-1 px-3">Devuelve JSON con <code>{"body": "ken"}</code></td>
+                </tr>
+                <tr>
+                    <td class="py-1 px-3 font-mono">GET</td>
+                    <td class="py-1 px-3">/user/:id</td>
+                    <td class="py-1 px-3">Devuelve datos para un usuario (parámetro <code>id</code>)</td>
+                </tr>
+                <tr class="bg-orange-50">
+                    <td class="py-1 px-3 font-mono">POST</td>
+                    <td class="py-1 px-3">/login</td>
+                    <td class="py-1 px-3">Login de usuario, usa sesión</td>
+                </tr>
+                <tr>
+                    <td class="py-1 px-3 font-mono">GET</td>
+                    <td class="py-1 px-3">/me</td>
+                    <td class="py-1 px-3">Perfil de usuario autenticado</td>
+                </tr>
+            </tbody>
+        </table>
+
+
+        <h2 class="text-xl font-bold text-orange-600 mb-2 mt-8">Ejemplo de Definición de Rutas</h2>
+        <table class="w-full bg-white/90 rounded-lg mb-6 border border-orange-200 text-sm">
+            <thead>
+                <tr class="bg-orange-100 border-b border-orange-200">
+                    <th class="py-2 px-3 text-left font-bold text-gray-700">Método</th>
+                    <th class="py-2 px-3 text-left font-bold text-gray-700">Ruta</th>
+                    <th class="py-2 px-3 text-left font-bold text-gray-700">Descripción</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="py-1 px-3 font-mono">GET</td>
+                    <td class="py-1 px-3">/kame</td>
+                    <td class="py-1 px-3">Devuelve texto plano "hame-ha"</td>
+                </tr>
+                <tr class="bg-orange-50">
+                    <td class="py-1 px-3 font-mono">GET</td>
+                    <td class="py-1 px-3">/kaio</td>
+                    <td class="py-1 px-3">Devuelve JSON con <code>{"body": "ken"}</code></td>
+                </tr>
+                <tr>
+                    <td class="py-1 px-3 font-mono">GET</td>
+                    <td class="py-1 px-3">/user/:id</td>
+                    <td class="py-1 px-3">Devuelve datos para un usuario (parámetro <code>id</code>)</td>
+                </tr>
+                <tr class="bg-orange-50">
+                    <td class="py-1 px-3 font-mono">POST</td>
+                    <td class="py-1 px-3">/login</td>
+                    <td class="py-1 px-3">Login de usuario, usa sesión</td>
+                </tr>
+                <tr>
+                    <td class="py-1 px-3 font-mono">GET</td>
+                    <td class="py-1 px-3">/me</td>
+                    <td class="py-1 px-3">Perfil de usuario autenticado</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2 class="text-xl font-bold text-orange-600 mb-2 mt-8">Ejemplo de Grupo de Rutas</h2>
+        <pre class="bg-gray-900 text-blue-100 rounded p-3 mb-6 overflow-auto text-xs">
+        <code class="language-go">
+// Definir un grupo con prefijo '/admin'
+app.Group("/admin", func(r ki.Router) {
+    r.Get("/dashboard", func(ctx *ki.Context) {
+        ctx.Text(200, "Panel de Admin")
+    })
+    r.Get("/stats", func(ctx *ki.Context) {
+        ctx.JSON(200, ki.M{"users": 99})
+    })
+})
+        </code>
+        </pre>
+
+
+        <h2 class="text-xl font-bold text-orange-600 mb-2 mt-8">Resumen de Middlewares y Respuestas</h2>
+        <table class="w-full bg-white/90 rounded-lg mb-6 border border-orange-200 text-sm">
+            <thead>
+                <tr class="bg-orange-100 border-b border-orange-200">
+                    <th class="py-2 px-3 text-left font-bold text-gray-700">Función</th>
+                    <th class="py-2 px-3 text-left font-bold text-gray-700">Ejemplo</th>
+                    <th class="py-2 px-3 text-left font-bold text-gray-700">Descripción</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="py-1 px-3 font-mono">Middleware global</td>
+                    <td class="py-1 px-3"><code>app.Use(miMiddleware)</code></td>
+                    <td class="py-1 px-3">Se ejecuta en todas las rutas</td>
+                </tr>
+                <tr class="bg-orange-50">
+                    <td class="py-1 px-3 font-mono">Middleware por grupo</td>
+                    <td class="py-1 px-3"><code>admin := app.Group("/admin").Use(AdminAuth)</code></td>
+                    <td class="py-1 px-3">Solo en rutas bajo /admin</td>
+                </tr>
+                <tr>
+                    <td class="py-1 px-3 font-mono">Respuesta JSON</td>
+                    <td class="py-1 px-3"><code>ctx.JSON(200, ki.M{"key": "val"})</code></td>
+                    <td class="py-1 px-3">Respuesta en formato JSON</td>
+                </tr>
+                <tr class="bg-orange-50">
+                    <td class="py-1 px-3 font-mono">Respuesta XML</td>
+                    <td class="py-1 px-3"><code>ctx.XML(200, data)</code></td>
+                    <td class="py-1 px-3">Respuesta en formato XML</td>
+                </tr>
+                <tr>
+                    <td class="py-1 px-3 font-mono">Respuesta CSV</td>
+                    <td class="py-1 px-3"><code>ctx.CSV(200, records, "export.csv")</code></td>
+                    <td class="py-1 px-3">Descarga como archivo CSV</td>
+                </tr>
+                <tr class="bg-orange-50">
+                    <td class="py-1 px-3 font-mono">Redirección</td>
+                    <td class="py-1 px-3"><code>ctx.Redirect("/login", 302)</code></td>
+                    <td class="py-1 px-3">Redirecciona a otra ruta</td>
+                </tr>
+                <tr>
+                    <td class="py-1 px-3 font-mono">Renderizar template</td>
+                    <td class="py-1 px-3"><code>ctx.Render(200, ki.M{"Name":"Ki"}, "great.html")</code></td>
+                    <td class="py-1 px-3">Renderiza un HTML con variables</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <table class="w-full bg-white/90 rounded-lg mb-6 border border-orange-200 text-sm">
+            <thead>
+                <tr class="bg-orange-100 border-b border-orange-200">
+                    <th class="py-2 px-3 text-left font-bold text-gray-700"> </th>
+                    <th class="py-2 px-3 text-left font-bold text-gray-700">Función</th>
+                    <th class="py-2 px-3 text-left font-bold text-gray-700">Ejemplo</th>
+                    <th class="py-2 px-3 text-left font-bold text-gray-700">Descripción</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="py-1 px-2"><span
+                            class="inline-block bg-orange-400 rounded-full w-5 h-5 text-white text-center font-bold">🌀</span>
+                    </td>
+                    <td class="py-1 px-3 font-mono">Middleware global</td>
+                    <td class="py-1 px-3"><code>app.Use(miMiddleware)</code></td>
+                    <td class="py-1 px-3">Se ejecuta en todas las rutas</td>
+                </tr>
+                <tr class="bg-orange-50">
+                    <td class="py-1 px-2"><span
+                            class="inline-block bg-blue-400 rounded-full w-5 h-5 text-white text-center font-bold">👊</span>
+                    </td>
+                    <td class="py-1 px-3 font-mono">Middleware por grupo</td>
+                    <td class="py-1 px-3"><code class="language-go">admin := app.Group("/admin").Use(AdminAuth)</code></td>
+                    <td class="py-1 px-3">Solo en rutas bajo /admin</td>
+                </tr>
+                <!-- Extiende con más iconos según tu gusto -->
+            </tbody>
+        </table>
+        
+        <h2 class="text-xl font-bold text-orange-600 mb-2 mt-8 flex items-center gap-2">
+            <span class="inline-block bg-orange-500 rounded-full w-7 h-7 text-white text-center font-black text-lg">⚡️</span>
+            Ejemplo de Middleware de Autenticación
+        </h2>
+        <pre class="bg-gray-900 text-yellow-100 rounded p-3 mb-6 overflow-auto text-xs">
+            <code class="language-go">
+// Middleware de "Ki Auth" estilo Dragon Ball
+func KameAuth(ctx *ki.Context) {
+    user, err := ctx.Session.User()
+    if err != nil || user.Username != "goku" {
+        ctx.Session.Flash("¡Sólo guerreros Z pueden entrar!")
+        ctx.Redirect("/login", 302)
+        return
+    }
+    ctx.Next()
+}
+
+// Usarlo:
+app.Group("/torneo").Use(KameAuth).Get("/sala", func(ctx *ki.Context) {
+    ctx.Text(200, "¡Bienvenido al Torneo de Artes Marciales!")
+})
+            </code>
+        </pre>
+        
+    </div>
+
+    <footer class="mt-8 mb-3 text-center opacity-80">
+        <span
+            class="inline-flex items-center gap-1 px-4 py-1 bg-orange-200 rounded-full font-bold tracking-widest border-2 border-orange-700 text-orange-800 shadow">
+            <span class="text-2xl">気</span>
+            Ki Web Framework &copy; 2025
+        </span>
+        <span class="ml-3 text-sm" style="color: #187dba;">| Inspirado en la energía de Dragon Ball</span>
+    </footer>
+  
+</body>
+
+</html>

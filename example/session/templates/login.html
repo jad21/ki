@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Fira Sans', 'Trebuchet MS', 'Arial', sans-serif;
+            background: linear-gradient(120deg, #f7e883 0%, #fca311 100%);
+        }
+
+        .kai-box {
+            box-shadow: 0 4px 32px 0 #4443, 0 0 0 4px #2d2e2d22;
+            border-radius: 1.5rem;
+            border: 4px solid #1e293b;
+            background: #fff8e1dd;
+        }
+    </style>
+</head>
+
+<body class="flex flex-col min-h-screen items-center justify-center">
+    <div class="kai-box w-full max-w-sm p-8 mt-6">
+        <h1 class="text-3xl mb-5 font-bold text-orange-600 text-center tracking-wider drop-shadow">KI Login</h1>
+        {{if .Flashes}}
+        <ul class="mb-4">
+            {{range .Flashes}}
+            <li class="text-red-600 font-semibold">{{.}}</li>
+            {{end}}
+        </ul>
+        {{end}}
+        <form method="POST" action="/login" class="space-y-4">
+            <label class="block">
+                <span class="text-gray-700">Usuario</span>
+                <input name="user" required
+                    class="mt-1 block w-full rounded border-2 border-orange-500 focus:ring-2 focus:ring-orange-400 focus:outline-none px-3 py-2" />
+            </label>
+            <label class="block">
+                <span class="text-gray-700">Contraseña</span>
+                <input name="pass" type="password" required
+                    class="mt-1 block w-full rounded border-2 border-orange-500 focus:ring-2 focus:ring-orange-400 focus:outline-none px-3 py-2" />
+            </label>
+            <button
+                class="w-full py-2 mt-2 bg-orange-500 text-white font-bold rounded shadow hover:bg-orange-600 transition">Entrar</button>
+        </form>
+    </div>
+    <div class="mt-6 text-center opacity-60">
+        <span class="font-semibold tracking-widest"
+            style="color: #187dba; font-family: 'Trebuchet MS', 'Arial', sans-serif;">
+            気 - Ki Web Framework &copy; 2025
+        </span>
+    </div>
+</body>
+
+</html>

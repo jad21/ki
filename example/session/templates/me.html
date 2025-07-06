@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Perfil</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Fira Sans', 'Trebuchet MS', 'Arial', sans-serif;
+            background: linear-gradient(120deg, #f7e883 0%, #fca311 100%);
+        }
+
+        .kai-box {
+            box-shadow: 0 4px 32px 0 #4443, 0 0 0 4px #2d2e2d22;
+            border-radius: 1.5rem;
+            border: 4px solid #1e293b;
+            background: #fff8e1dd;
+        }
+    </style>
+</head>
+
+<body class="flex flex-col min-h-screen items-center justify-center">
+    <div class="kai-box w-full max-w-md p-8 mt-6">
+        <h1 class="text-3xl mb-3 font-bold text-orange-700 text-center tracking-wider drop-shadow">¡Bienvenido!</h1>
+        <p class="mb-6 text-center text-lg text-gray-700">Hola, <span
+                class="font-bold text-orange-700">{{.User.Username}}</span></p>
+        <a href="/logout"
+            class="block w-full text-center py-2 bg-blue-600 text-white rounded font-semibold hover:bg-blue-700 transition">Salir</a>
+    </div>
+    <div class="mt-6 text-center opacity-60">
+        <span class="font-semibold tracking-widest"
+            style="color: #187dba; font-family: 'Trebuchet MS', 'Arial', sans-serif;">
+            気 - Ki Web Framework &copy; 2025
+        </span>
+    </div>
+</body>
+
+</html>

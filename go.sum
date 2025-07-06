@@ -1,0 +1,10 @@
+git.jdev.run/jad21/di v0.0.0-20240210164715-3f9314576e3e h1:HZ73hBI3H9cZ9WScDl95JFJuxfR5uBkvWxcGkmmE2b0=
+git.jdev.run/jad21/di v0.0.0-20240210164715-3f9314576e3e/go.mod h1:Gz2W7vr9gxquzjieA5BrIY66x7AqxWqh7Eo6Du6MUuE=
+github.com/sohaha/zlsgo v1.7.1 h1:2O8dSZ9WDJMVTvSfidaHmsT4IKHphGRHXtIJygsCJAE=
+github.com/sohaha/zlsgo v1.7.1/go.mod h1:MBjtFRux3Ygww2NvAZbPyw8KKkIAfIRIl0UmeBNGmx0=
+golang.org/x/crypto v0.17.0 h1:r8bRNjWL3GshPW3gkd+RpvzWrZAwPS49OmTGZ/uhM4k=
+golang.org/x/crypto v0.17.0/go.mod h1:gCAAfMLgwOJRpTjQ2zCCt2OcSfYMTeZVSRtQlPC7Nq4=
+golang.org/x/net v0.17.0 h1:pVaXccu2ozPjCXewfr1S7xza/zcXTity9cCdXQYSjIM=
+golang.org/x/net v0.17.0/go.mod h1:NxSsAGuq816PNPmqtQdLE42eU2Fs7NoRIZrHJAlaCOE=
+golang.org/x/text v0.14.0 h1:ScX5w1eTa3QqT8oi6+ziP7dTV1S2+ALU0bI+0zXKWiQ=
+golang.org/x/text v0.14.0/go.mod h1:18ZOQIKpY8NJVqYksKHtTdi31H5itFRjB5/qKTNYzSU=
