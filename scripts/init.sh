@@ -11,7 +11,7 @@ import (
 	"fmt"
 
 	"git.jdev.run/pkg/config"
-	"git.jdev.run/pkg/ki"
+	"github.com/jad21/ki"
 	"$1/internal/$2"
 )
 
@@ -19,7 +19,7 @@ func main() {
 	if config.IsDevelopment() {
 		fmt.Println("IsDevelopment")
 	}
-	app := ki.Default()
+	app := ki.New()
 	app.Static("/static/", "./static")
 	app.AddHandler($2.NewHandler())
 	app.ListenAndServe()
@@ -36,7 +36,7 @@ EOF
 	cat >> internal/$2/handler.go <<EOF
 
 import (
-	"git.jdev.run/pkg/ki"
+	"github.com/jad21/ki"
 )
 
 type Handler struct { }
@@ -61,7 +61,7 @@ ENV=development
 PORT=5000
 EOF
 
-go get git.jdev.run/pkg/ki
+go get github.com/jad21/ki
 go get git.jdev.run/pkg/config
 
 

@@ -12,7 +12,7 @@ import (
 	"time"
 
 	"git.jdev.run/jad21/di"
-	"git.jdev.run/pkg/ki/env"
+	"github.com/jad21/ki/env"
 )
 
 // IMPORTANTE: los siguientes imports serán válidos cuando crees estos archivos y paquetes.

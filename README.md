@@ -46,7 +46,7 @@ Ki (気, "Energía") es un framework web moderno, rápido y minimalista para Go,
 ## Instalación
 
 ```sh
-go get -u git.jdev.run/pkg/ki
+go get -u github.com/jad21/ki
 ```
 
 ---
@@ -58,7 +58,7 @@ package main
 
 import (
 	"net/http"
-	"git.jdev.run/pkg/ki"
+	"github.com/jad21/ki"
 )
 
 func main() {

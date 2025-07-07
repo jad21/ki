@@ -1,4 +1,4 @@
-module git.jdev.run/pkg/ki
+module github.com/jad21/ki
 
 go 1.21.5
 

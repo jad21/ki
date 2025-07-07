@@ -3,8 +3,8 @@ package main
 import (
 	"os"
 
-	"git.jdev.run/pkg/ki"
-	"git.jdev.run/pkg/ki/session"
+	"github.com/jad21/ki"
+	"github.com/jad21/ki/session"
 )
 
 // Simulación de usuarios

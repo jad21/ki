@@ -8,8 +8,8 @@ import (
 	"log"
 	"net/http"
 
-	"git.jdev.run/pkg/ki"
-	"git.jdev.run/pkg/ki/session"
+	"github.com/jad21/ki"
+	"github.com/jad21/ki/session"
 )
 
 func main() {

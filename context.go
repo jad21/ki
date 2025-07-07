@@ -11,7 +11,7 @@ import (
 	"path/filepath"
 
 	"git.jdev.run/jad21/di"
-	"git.jdev.run/pkg/ki/session"
+	"github.com/jad21/ki/session"
 )
 
 type KeyCtx string
