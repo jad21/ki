@@ -11,7 +11,7 @@ import (
 	"sync"
 	"time"
 
-	"git.jdev.run/jad21/di"
+	"github.com/jad21/di"
 	"github.com/jad21/ki/env"
 )
 
@@ -105,17 +105,6 @@ func SetReadTimeout(t time.Duration) Option {
 	return func(o *options) {
 		o.ReadTimeout = t
 	}
-}
-
-func (s *App) acquireContext() *Context {
-	return s.pool.Get().(*Context)
-}
-func (e *App) releaseContext(c *Context) {
-	c.next = nil
-	c.injector = nil
-	c.Request = nil
-	c.Writer = nil
-	e.pool.Put(c)
 }
 
 // Inyectar variable inicializada

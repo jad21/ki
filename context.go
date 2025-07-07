@@ -10,7 +10,7 @@ import (
 	"net/http"
 	"path/filepath"
 
-	"git.jdev.run/jad21/di"
+	"github.com/jad21/di"
 	"github.com/jad21/ki/session"
 )
 
@@ -77,30 +77,6 @@ func UseContext(app *App, w http.ResponseWriter, r *http.Request) (*Context, err
 	err := c.Session.Start(r.Context(), w, r)
 
 	return c, err
-}
-
-func (c *Context) clone(w http.ResponseWriter, r *http.Request, next func() error) error {
-	c.next = next
-	c.Context = r.Context()
-	c.Request, c.Writer = r, w
-
-	if init, ok := c.Get("ki-context-init").(bool); ok && init {
-		if ctx, ok := c.Get("ki-context-ptr").(*Context); ok {
-			*c = *ctx
-		} else {
-			panic("ki-context-ptr is not set")
-		}
-		return nil
-	}
-
-	r.ParseForm()
-	c.Session = session.New()
-	c.injector = di.New(c.App.DI)
-	c.injector.Maps(c, c.Session, r, w)
-	c.Set("ki-context-ptr", c)
-	c.Set("ki-context-init", true)
-
-	return c.Session.Start(c, w, r)
 }
 
 // response JSON
@@ -186,9 +162,7 @@ func (s *Context) Fail(code int, err error, args ...any) {
 }
 
 func (s *Context) Redirect(url string, code int) {
-	// http.Redirect(s.Writer, s.Request, url, code)
-	s.Writer.Header().Add("Location", url)
-	s.Writer.WriteHeader(code)
+	http.Redirect(s.Writer, s.Request, url, code)
 }
 
 func (s *Context) RedirectHTML(url string, code int) {
