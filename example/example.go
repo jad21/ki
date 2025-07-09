@@ -4,16 +4,25 @@ import (
 	"database/sql"
 	"fmt"
 	"io"
-	"io/fs"
 	"log"
 	"net/http"
 
 	"github.com/jad21/ki"
 	"github.com/jad21/ki/session"
+	"github.com/jad21/ki/templates"
 )
 
 func main() {
-	app := ki.New()
+
+	tmp, err := templates.New(templates.Dir("./templates"))
+	if err != nil {
+		panic(err)
+	}
+	for _, l := range tmp.ListTemplates() {
+		fmt.Println("*", l)
+	}
+
+	app := ki.New(ki.SetTemplateEngine(tmp))
 
 	app.Provide(func() *sql.DB {
 		d := sql.DB{}
@@ -28,9 +37,9 @@ func main() {
 		ctx.Next()
 	})
 
-	app.Static("/static/", "example/static")
+	// app.Static("/static/", "example/static")
 	// or
-	// app.Static("/static/", "static")
+	app.Static("/static/", "static")
 
 	app.StaticHandler("/static/-", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		uPath := r.URL.Path
@@ -105,10 +114,13 @@ func main() {
 		ctx.JSON(http.StatusOK, ki.M{"body": "ken"})
 	})
 	app.Get("/great", func(ctx *ki.Context) {
-		ctx.Render(http.StatusOK, ki.M{"Name": "Goku"}, "great.html")
+		err := ctx.Render(http.StatusOK, "great.html", ki.M{"Name": "Goku"})
+		if err != nil {
+			ctx.Text(500, err.Error())
+		}
 	})
 	app.Get("/planet/{name}", func(ctx *ki.Context) {
-		err := ctx.Render(http.StatusOK, nil, fmt.Sprintf("planet/%s.html", ctx.Vars()["name"]))
+		err := ctx.Render(http.StatusOK, fmt.Sprintf("planet.%s.html", ctx.Vars()["name"]), ctx.Vars()["name"])
 		if err != nil {
 			ctx.Text(404, err.Error())
 		}
@@ -138,15 +150,15 @@ func main() {
 		}
 	})
 
-	fs.WalkDir(app.Templates, ".", func(path string, d fs.DirEntry, err error) error {
-		if err != nil {
-			return err
-		}
-		if !d.IsDir() {
-			fmt.Println(path)
-		}
-		return nil
-	})
+	// fs.WalkDir(app.Templates, ".", func(path string, d fs.DirEntry, err error) error {
+	// 	if err != nil {
+	// 		return err
+	// 	}
+	// 	if !d.IsDir() {
+	// 		fmt.Println(path)
+	// 	}
+	// 	return nil
+	// })
 
 	app.ListenAndServe()
 }

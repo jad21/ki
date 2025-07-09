@@ -6,9 +6,7 @@ import (
 	"encoding/json"
 	"encoding/xml"
 	"fmt"
-	"html/template"
 	"net/http"
-	"path/filepath"
 
 	"github.com/jad21/di"
 	"github.com/jad21/ki/session"
@@ -119,15 +117,9 @@ func (s *Context) Text(code int, body string) {
 }
 
 // response template
-func (s *Context) Render(code int, args any, patterns ...string) error {
+func (s *Context) Render(code int, name string, data any) error {
 	s.Writer.WriteHeader(code)
-	filename := filepath.Base(patterns[len(patterns)-1])
-	tmpl := template.New("ki-render." + filename)
-	if s.App.TemplatesFuncs != nil {
-		tmpl.Funcs(s.App.TemplatesFuncs)
-	}
-	template.Must(tmpl.ParseFS(s.App.Templates, patterns...))
-	return tmpl.ExecuteTemplate(s.Writer, filename, args)
+	return s.App.TemplateEngine.ExecuteTemplate(s.Writer, name, data)
 }
 
 // response standard for results like success

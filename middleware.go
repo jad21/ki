@@ -19,9 +19,9 @@ func chainMiddlewares(final HandlerFunc, mws []Middleware) HandlerFunc {
 	next := chainMiddlewares(final, mws[1:])
 	return func(ctx *Context) {
 		ctx.next = func() error {
-			return ctx.injector.InvokeWithErrorOnly(next)
+			return dispatch(ctx, next)
 		}
-		ctx.injector.InvokeWithErrorOnly(mw)
+		dispatch(ctx, mw)
 	}
 }
 

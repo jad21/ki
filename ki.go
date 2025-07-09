@@ -2,17 +2,17 @@ package ki
 
 import (
 	"context"
-	"html/template"
+	"io"
 	"io/fs"
 	"log"
 	"net/http"
-	"os"
 	"reflect"
 	"sync"
 	"time"
 
 	"github.com/jad21/di"
 	"github.com/jad21/ki/env"
+	"github.com/jad21/ki/templates"
 )
 
 // IMPORTANTE: los siguientes imports serán válidos cuando crees estos archivos y paquetes.
@@ -37,8 +37,7 @@ type App struct {
 	WriteTimeout   time.Duration
 	ReadTimeout    time.Duration
 	Handlers       []Handler
-	Templates      FileReader
-	TemplatesFuncs template.FuncMap
+	TemplateEngine TemplateEngine
 	DI             di.Injector
 
 	// Nuevos handlers globales
@@ -48,22 +47,46 @@ type App struct {
 	after    func(ctx *Context)
 }
 
+// TemplateEngine define la interfaz para un motor de plantillas.
+// Abstrae las operaciones comunes como la creación de una nueva plantilla,
+// el registro de funciones y la ejecución de la plantilla.
+type TemplateEngine interface {
+	// New crea una nueva plantilla con el nombre dado y la asocia con el motor.
+	// Retorna una nueva instancia de TemplateEngine que representa la plantilla nombrada.
+	// New(name string) TemplateEngine
+
+	// Funcs agrega las funciones al FuncMap del motor de plantillas.
+	// Retorna la misma instancia de TemplateEngine para encadenar llamadas.
+	// Funcs(funcMap template.FuncMap) TemplateEngine
+
+	// ExecuteTemplate aplica la plantilla con el nombre dado a los datos especificados,
+	// escribiendo la salida en w.
+	// El nombre del template puede ser el nombre de la plantilla raíz o un sub-template definido.
+	ExecuteTemplate(w io.Writer, name string, data any) error
+}
 type options struct {
 	WriteTimeout   time.Duration
 	ReadTimeout    time.Duration
-	Templates      FileReader
-	TemplatesFuncs template.FuncMap
+	TemplateEngine TemplateEngine
 }
 type Option func(o *options)
 
 var defaultOptions = options{
-	Templates:    os.DirFS(env.GetEnvVar("TEMPLATES", "templates")),
 	WriteTimeout: 60 * time.Second,
 	ReadTimeout:  60 * time.Second,
 }
 
 func New(opt ...Option) *App {
 	opts := defaultOptions
+
+	tEngine, err := templates.New(
+		templates.Dir(env.GetEnvVar("TEMPLATES", "templates")),
+		templates.Suffix(".html", ".tmpl"),
+	)
+	if err == nil {
+		opts.TemplateEngine = tEngine
+	}
+
 	for _, o := range opt {
 		o(&opts)
 	}
@@ -73,8 +96,7 @@ func New(opt ...Option) *App {
 		Context:        context.Background(),
 		WriteTimeout:   opts.WriteTimeout,
 		ReadTimeout:    opts.ReadTimeout,
-		Templates:      opts.Templates,
-		TemplatesFuncs: opts.TemplatesFuncs,
+		TemplateEngine: opts.TemplateEngine,
 	}
 	app.Router = NewRoute(app)
 	app.pool.New = func() interface{} {
@@ -86,16 +108,12 @@ func New(opt ...Option) *App {
 	return app
 }
 
-func SetTemplates(reader FileReader) Option {
+func SetTemplateEngine(engine TemplateEngine) Option {
 	return func(o *options) {
-		o.Templates = reader
+		o.TemplateEngine = engine
 	}
 }
-func SetTemplatesFuncs(fn template.FuncMap) Option {
-	return func(o *options) {
-		o.TemplatesFuncs = fn
-	}
-}
+
 func SetWriteTimeout(t time.Duration) Option {
 	return func(o *options) {
 		o.WriteTimeout = t

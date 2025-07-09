@@ -1,8 +1,6 @@
 package main
 
 import (
-	"os"
-
 	"github.com/jad21/ki"
 	"github.com/jad21/ki/session"
 )
@@ -15,15 +13,15 @@ var mockDB = map[string]string{
 
 func main() {
 	app := ki.New(
-		ki.SetTemplates(os.DirFS("templates")),
+	// ki.SetTemplates(os.DirFS("templates")),
 	)
 
 	// Login (GET)
 	app.Get("/login", func(s session.Service, ctx *ki.Context) {
 		flashes, _ := s.Flashes()
-		ctx.Render(200, ki.M{
+		ctx.Render(200, "login.html", ki.M{
 			"Flashes": flashes,
-		}, "login.html")
+		})
 	})
 
 	// Login (POST)
@@ -53,9 +51,7 @@ func main() {
 			return
 		}
 		// ctx.Text(200, "Hola, "+user.Username+" | <a href='/logout'>Salir</a>")
-		ctx.Render(200, ki.M{
-			"User": user,
-		}, "me.html")
+		ctx.Render(200, "me.html", ki.M{"User": user})
 
 	})
 

@@ -1,6 +1,7 @@
 package ki
 
 import (
+	"fmt"
 	"net/http"
 	"regexp"
 	"strings"
@@ -8,6 +9,16 @@ import (
 
 type HandlerFunc interface{}
 type Middleware interface{}
+
+// Define tipos nominales sólo para facilitar los type-switch
+type (
+	fnEmpty  = func()
+	ctxOnly  = func(*Context)
+	wrReq    = func(http.ResponseWriter, *http.Request)
+	reqWr    = func(*http.Request, http.ResponseWriter)
+	ctxWrReq = func(*Context, http.ResponseWriter, *http.Request)
+	ctxReqWr = func(*Context, *http.Request, http.ResponseWriter)
+)
 
 // ---------- NUEVA INTERFAZ PIPELINE PARA ROUTER ----------
 
@@ -266,7 +277,7 @@ func (r *router) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 			case error:
 				err = v
 			default:
-				err = nil
+				err = fmt.Errorf("%v", rec)
 			}
 			if matched.onError != nil {
 				matched.onError(ctx, err)
@@ -277,7 +288,7 @@ func (r *router) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 			}
 		}
 	}()
-	if err := ctx.injector.InvokeWithErrorOnly(handler); err != nil {
+	if err := dispatch(ctx, handler); err != nil {
 		if matched.onError != nil {
 			matched.onError(ctx, err)
 		} else if r.app.onError != nil {
@@ -337,4 +348,37 @@ func matchHeaders(expected map[string]string, headers http.Header) bool {
 		}
 	}
 	return true
+}
+
+func dispatch(ctx *Context, h HandlerFunc) error {
+	w, r := ctx.Writer, ctx.Request
+	switch fn := h.(type) {
+
+	case fnEmpty:
+		fn()
+		return nil
+	case ctxOnly:
+		fn(ctx)
+		return nil
+
+	case wrReq:
+		fn(w, r)
+		return nil
+
+	case reqWr:
+		fn(r, w)
+		return nil
+
+	case ctxWrReq:
+		fn(ctx, w, r)
+		return nil
+
+	case ctxReqWr:
+		fn(ctx, r, w)
+		return nil
+
+	default:
+		// Recurre al inyector sólo cuando hace falta reflexión real
+		return ctx.injector.InvokeWithErrorOnly(h)
+	}
 }

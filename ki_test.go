@@ -291,7 +291,11 @@ func TestRouter_Features_Advanced(t *testing.T) {
 			ctx.Text(404, "not-found-custom")
 		})
 		app.OnError(func(ctx *Context, err error) {
-			ctx.Text(500, "err:"+err.Error())
+			if err != nil {
+				ctx.Text(500, "err:"+err.Error())
+				return
+			}
+			ctx.Text(500, "err")
 		})
 		app.Get("/fail", func(ctx *Context) {
 			panic("forced error")
