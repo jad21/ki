@@ -15,10 +15,7 @@ import (
 	"github.com/jad21/ki/templates"
 )
 
-// IMPORTANTE: los siguientes imports serán válidos cuando crees estos archivos y paquetes.
-// Puedes comenzar como package main en los archivos nuevos para pruebas iniciales, luego ajustar el import path.
-
-type Handler interface {
+type Module interface {
 	Expose(*App)
 }
 type M map[string]any
@@ -36,7 +33,7 @@ type App struct {
 	Router         *router
 	WriteTimeout   time.Duration
 	ReadTimeout    time.Duration
-	Handlers       []Handler
+	Modules        []Module
 	TemplateEngine TemplateEngine
 	DI             di.Injector
 
@@ -200,10 +197,10 @@ func (s *App) Head(path string, fn HandlerFunc, middlewares ...Middleware) *Rout
 	return s.Router.Head(path, fn, middlewares...)
 }
 
-// Set handler
-func (s *App) AddHandler(h Handler) {
-	s.Handlers = append(s.Handlers, h)
-	h.Expose(s)
+// Extend module
+func (s *App) Register(m Module) {
+	s.Modules = append(s.Modules, m)
+	m.Expose(s)
 }
 
 // Emula PathPrefix usando tu propio router, ejecutando un HandlerFunc para todo lo que comienza con tpl
