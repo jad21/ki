@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net/http"
 	"regexp"
+	"sort"
 	"strings"
 )
 
@@ -160,6 +161,13 @@ func (r *router) addRouteAdvanced(rb *RouteBuilder, handler HandlerFunc) {
 		afterEach:   rb.afterEach,
 	}
 	r.routes = append(r.routes, rt)
+
+	// Sort alphabetically by path: fix: las que tienen parámetros, este de ultimo
+	sort.Slice(r.routes, func(i, j int) bool {
+		left := strings.Join(r.routes[i].segments, "/")
+		right := strings.Join(r.routes[j].segments, "/")
+		return left < right
+	})
 }
 
 // ----------- LEGACY PATHPREFIX -----------

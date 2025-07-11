@@ -253,6 +253,31 @@ func TestRouter_Features_Advanced(t *testing.T) {
 		}
 	})
 
+	// 1.2. Parámetros y grupos sin superponer
+	t.Run("Route param overwritten match", func(t *testing.T) {
+		app := New()
+		app.Get("/api/list", func(ctx *Context) {
+			ctx.Text(200, "list")
+		})
+		app.Get("/api/{id}", func(ctx *Context) {
+			ctx.Text(200, "ok:"+ctx.Vars()["id"])
+		})
+
+		server := httptest.NewServer(app.Router)
+		defer server.Close()
+
+		// Coincide con número
+		resp, body := httpGet(t, server.URL+"/api/42")
+		assertStatus(t, resp, 200)
+		assertBody(t, body, "ok:42")
+
+		// Coincide con path
+		resp, body = httpGet(t, server.URL+"/api/list")
+		assertStatus(t, resp, 200)
+		assertBody(t, body, "list")
+
+	})
+
 	// 2. GroupRouter anidado
 	t.Run("Nested group", func(t *testing.T) {
 		app := New()
