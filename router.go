@@ -166,6 +166,12 @@ func (r *router) addRouteAdvanced(rb *RouteBuilder, handler HandlerFunc) {
 	sort.Slice(r.routes, func(i, j int) bool {
 		left := strings.Join(r.routes[i].segments, "/")
 		right := strings.Join(r.routes[j].segments, "/")
+
+		if r.routes[i].isPrefix && r.routes[j].isPrefix {
+			// En los isPrefix se ordena al inverso.
+			return left > right
+		}
+
 		return left < right
 	})
 }
