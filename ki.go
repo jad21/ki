@@ -231,8 +231,9 @@ func (s *App) Static(path string, dir string) {
 }
 
 // Set static path and dir http.FS
-func (s *App) StaticFS(path string, fs fs.FS) {
-	s.StaticHandler(path, http.FileServer(http.FS(fs)))
+func (s *App) StaticFS(path string, fsys fs.FS) {
+	handler := http.StripPrefix(path, http.FileServer(http.FS(fsys)))
+	s.StaticHandler(path, handler)
 }
 
 // ----------------------------------------------

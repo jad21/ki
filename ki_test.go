@@ -2,11 +2,14 @@ package ki
 
 import (
 	"database/sql"
+	"embed"
 	"encoding/json"
 	"io"
+	"io/fs"
 	"net/http"
 	"net/http/httptest"
 	"os"
+	"path/filepath"
 	"testing"
 	"time"
 )
@@ -446,5 +449,81 @@ func TestGroup_Static(t *testing.T) {
 	}
 	if !called {
 		t.Fatalf("Group middleware was not executed for group static file")
+	}
+}
+
+func TestApp_StaticFS(t *testing.T) {
+	// 1. Prepara un FS embebido en un directorio temporal
+	dir := t.TempDir()
+	filename := "recurso.txt"
+	contenido := []byte("contenido estático FS")
+	if err := os.WriteFile(filepath.Join(dir, filename), contenido, 0644); err != nil {
+		t.Fatalf("No se pudo crear archivo de prueba: %v", err)
+	}
+
+	// 2. Configura la app y un middleware para contar ejecuciones
+	app := New()
+	mwEjecutado := false
+	app.Use(func(ctx *Context) {
+		mwEjecutado = true
+		ctx.Next()
+	})
+
+	// 3. Registra el FS en la ruta /static/
+	app.StaticFS("/static/", os.DirFS(dir))
+
+	// 4. Arranca servidor de prueba
+	server := httptest.NewServer(app.Router)
+	defer server.Close()
+
+	// 5. Hace la petición al recurso estático
+	url := server.URL + "/static/" + filename
+	resp, body := httpGet(t, url)
+
+	// 6. Validaciones
+	assertStatus(t, resp, 200)
+	if body != string(contenido) {
+		t.Errorf("Esperaba cuerpo %q, pero obtuvo %q", contenido, body)
+	}
+	if !mwEjecutado {
+		t.Error("El middleware global no se ejecutó al servir el archivo estático")
+	}
+}
+
+//go:embed docs/res.txt
+var testEmbedFS embed.FS
+
+func TestApp_StaticFS_Embed(t *testing.T) {
+	// 1. Crea un sub-FS que sitúe la carpeta "docs" como raíz
+	subFS, err := fs.Sub(testEmbedFS, "docs")
+	if err != nil {
+		t.Fatalf("fs.Sub falló: %v", err)
+	}
+
+	// 2. Configura la app con un middleware para verificar ejecución
+	app := New()
+	mwEjecutado := false
+	app.Use(func(ctx *Context) {
+		mwEjecutado = true
+		ctx.Next()
+	})
+
+	// 3. Registra el FS embebido en la ruta /static/
+	app.StaticFS("/static/", subFS)
+
+	// 4. Monta servidor de prueba
+	server := httptest.NewServer(app.Router)
+	defer server.Close()
+
+	// 5. Realiza petición al archivo embebido
+	url := server.URL + "/static/" + filepath.Base("res.txt")
+	resp, body := httpGet(t, url)
+	// 6. Validaciones
+	assertStatus(t, resp, 200)
+	if body != "kame" {
+		t.Errorf("Esperaba cuerpo %q, pero obtuvo %q", "kame", body)
+	}
+	if !mwEjecutado {
+		t.Error("El middleware global no se ejecutó al servir el archivo embebido")
 	}
 }
